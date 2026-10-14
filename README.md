@@ -1,0 +1,22 @@
+# Fold Control
+
+Device-owner app for Steve's Galaxy Z Fold8. It owns the phone from first boot, keeps Samsung's pre-installed apps hidden, and silently installs and updates apps published as GitHub releases.
+
+## How it fits together
+
+- **Push to `main`** → GitHub Actions builds a signed APK and publishes it as release `vN` (`fold-control.apk`).
+- **`config.json`** → read by the phone every 15 minutes. Edit it to change what's hidden (`hide`), bring apps back (`show`), or add apps to auto-install (`apps`: `{"repo": "owner/name", "asset": "app.apk"}`, public repos). Editing config does not trigger a rebuild.
+- **Phone** → syncs every 15 min on any network; installs updates to itself and listed apps with no prompt.
+
+## First-time setup (factory-fresh phone only)
+
+1. Power on. On the very first welcome screen, tap the same spot 6 times.
+2. Connect to Wi-Fi when asked, then scan `provisioning/setup-qr.png`.
+3. Let it download and finish; continue setup and sign into Google.
+4. Open **Fold Control** → **Clean phone**.
+
+To remove device ownership: factory reset.
+
+## Signing
+
+`signing/keystore.p12.enc` is the APK signing key, AES-256 encrypted. The password lives only in the `KEYSTORE_PASSWORD` repo secret. The QR code pins the key's checksum (`signing/signature-checksum.txt`); the build fails if they ever differ. Never change the key: the phone will refuse updates signed by a different one.

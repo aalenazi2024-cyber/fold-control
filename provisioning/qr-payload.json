@@ -1,0 +1,7 @@
+{
+ "android.app.extra.PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME": "com.steve.foldcontrol/com.steve.foldcontrol.AdminReceiver",
+ "android.app.extra.PROVISIONING_DEVICE_ADMIN_PACKAGE_DOWNLOAD_LOCATION": "https://github.com/aalenazi2024-cyber/fold-control/releases/latest/download/fold-control.apk",
+ "android.app.extra.PROVISIONING_DEVICE_ADMIN_SIGNATURE_CHECKSUM": "xv3DZtthTAxjSYdtwpCHHuNZkwVFaZIGUo24Z0TsI0c",
+ "android.app.extra.PROVISIONING_LEAVE_ALL_SYSTEM_APPS_ENABLED": true,
+ "android.app.extra.PROVISIONING_SKIP_EDUCATION_SCREENS": true
+}
