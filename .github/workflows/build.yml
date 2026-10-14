@@ -1,3 +1,4 @@
+# Builds a signed APK on every code push and publishes it as a GitHub release.
 name: Build and release
 
 on:
