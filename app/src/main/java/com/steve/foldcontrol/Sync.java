@@ -43,27 +43,30 @@ public final class Sync {
         }
         JSONObject config = Policy.config(ctx);
 
-        // 2. Hide list (only after the user has pressed "Clean phone" once)
+        // 2. Keep Android installing system updates automatically
+        Policy.applyUpdatePolicy(ctx);
+
+        // 3. Hide list (only after the user has pressed "Clean phone" once)
         if (Store.prefs(ctx).getBoolean("cleanup_enabled", false)) {
             int n = Policy.applyHideList(ctx, config);
             if (n > 0) Store.log(ctx, "Hid " + n + " apps from the list");
         }
 
-        // 3. Apps from config
+        // 4. Apps from config
         JSONArray apps = config.optJSONArray("apps");
         if (apps != null) {
             for (int i = 0; i < apps.length(); i++) {
                 JSONObject a = apps.optJSONObject(i);
                 if (a == null) continue;
                 try {
-                    updateApp(ctx, a.getString("repo"), a.optString("asset", ""));
+                    updateApp(ctx, a.getString("repo"), a.optString("asset", ""), a.optString("match", ""));
                 } catch (Exception e) {
                     Store.log(ctx, "App check failed for " + a.optString("repo") + ": " + e.getMessage());
                 }
             }
         }
 
-        // 4. Ourselves last, because a successful self-update restarts this app
+        // 5. Ourselves last, because a successful self-update restarts this app
         try {
             updateSelf(ctx);
         } catch (Exception e) {
@@ -88,9 +91,9 @@ public final class Sync {
         install(c, asset.getString("browser_download_url"), "self", asset.getLong("id"));
     }
 
-    private static void updateApp(Context c, String repo, String assetName) throws Exception {
+    private static void updateApp(Context c, String repo, String assetName, String match) throws Exception {
         JSONObject rel = new JSONObject(get("https://api.github.com/repos/" + repo + "/releases/latest"));
-        JSONObject asset = findAsset(rel, assetName);
+        JSONObject asset = match.isEmpty() ? findAsset(rel, assetName) : findAssetContaining(rel, match);
         if (asset == null) {
             Store.log(c, "No APK in latest release of " + repo);
             return;
@@ -113,6 +116,19 @@ public final class Sync {
             if (firstApk == null && n.endsWith(".apk")) firstApk = a;
         }
         return name.isEmpty() ? firstApk : null;
+    }
+
+    /** First .apk whose file name contains the given text, e.g. "arm64-v8a". */
+    private static JSONObject findAssetContaining(JSONObject release, String part) {
+        JSONArray assets = release.optJSONArray("assets");
+        if (assets == null) return null;
+        for (int i = 0; i < assets.length(); i++) {
+            JSONObject a = assets.optJSONObject(i);
+            if (a == null) continue;
+            String n = a.optString("name");
+            if (n.endsWith(".apk") && n.contains(part)) return a;
+        }
+        return null;
     }
 
     /** Silent install: allowed without a prompt because we are the device owner. */

@@ -1,6 +1,7 @@
 package com.steve.foldcontrol;
 
 import android.app.admin.DevicePolicyManager;
+import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -57,6 +58,20 @@ public final class Policy {
         Store.prefs(c).edit().putBoolean("provisioned", true).apply();
         Store.log(c, "Provisioned as device owner: " + isOwner(c));
         UpdateJob.schedule(c);
+    }
+
+    /** System updates install automatically as soon as they are available. */
+    public static void applyUpdatePolicy(Context c) {
+        if (!isOwner(c)) return;
+        try {
+            SystemUpdatePolicy current = dpm(c).getSystemUpdatePolicy();
+            if (current != null && current.getPolicyType() == SystemUpdatePolicy.TYPE_INSTALL_AUTOMATIC) return;
+            dpm(c).setSystemUpdatePolicy(AdminReceiver.component(c),
+                    SystemUpdatePolicy.createAutomaticInstallPolicy());
+            Store.log(c, "System updates set to install automatically");
+        } catch (Exception e) {
+            Store.log(c, "Update policy failed: " + e.getMessage());
+        }
     }
 
     /** Packages that must stay visible right now: system core plus whatever is currently a default app. */

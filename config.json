@@ -38,12 +38,21 @@
     "com.facebook.services",
     "com.facebook.system",
     "com.microsoft.skydrive",
-    "com.microsoft.office.officehubrow",
     "com.linkedin.android",
     "com.netflix.mediaclient",
     "com.netflix.partner.activation",
-    "com.spotify.music"
+    "com.spotify.music",
+    "com.instagram.android",
+    "com.instagram.barcelona"
   ],
-  "show": [],
-  "apps": []
+  "show": [
+    "com.microsoft.office.officehubrow"
+  ],
+  "apps": [
+    {
+      "repo": "termux/termux-app",
+      "match": "arm64-v8a",
+      "_note": "Terminal for SSH and Claude Code; Play Store version is outdated"
+    }
+  ]
 }
