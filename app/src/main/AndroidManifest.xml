@@ -26,6 +26,7 @@
         <!-- Called by the setup wizard during QR provisioning (Android 12+) -->
         <activity
             android:name=".ProvisioningModeActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <intent-filter>
@@ -36,6 +37,7 @@
 
         <activity
             android:name=".PolicyComplianceActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <intent-filter>

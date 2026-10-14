@@ -14,11 +14,15 @@ public class AdminReceiver extends DeviceAdminReceiver {
 
     @Override
     public void onEnabled(Context context, Intent intent) {
-        Store.log(context, "Admin enabled");
+        try { Store.log(context, "Admin enabled"); } catch (Throwable ignored) {}
     }
 
     @Override
     public void onProfileProvisioningComplete(Context context, Intent intent) {
-        Policy.onProvisioned(context);
+        try {
+            Policy.onProvisioned(context);
+        } catch (Throwable t) {
+            android.util.Log.e("FoldControl", "onProvisioned failed", t);
+        }
     }
 }
