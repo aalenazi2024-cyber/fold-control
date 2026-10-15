@@ -53,6 +53,11 @@
       "repo": "termux/termux-app",
       "match": "arm64-v8a",
       "_note": "Terminal for SSH and Claude Code; Play Store version is outdated"
+    },
+    {
+      "repo": "aalenazi2024-cyber/fold-control",
+      "asset": "door-control.apk",
+      "_note": "Door Control: Hikvision door station test app (door/ folder)"
     }
   ]
 }

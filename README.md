@@ -20,3 +20,13 @@ To remove device ownership: factory reset.
 ## Signing
 
 `signing/keystore.p12.enc` is the APK signing key, AES-256 encrypted. The password lives only in the `KEYSTORE_PASSWORD` repo secret. The QR code pins the key's checksum (`signing/signature-checksum.txt`); the build fails if they ever differ. Never change the key: the phone will refuse updates signed by a different one.
+
+## Door Control (`door/`)
+
+Second app in this repo: a direct LAN client for the villa's Hikvision intercom (door stations, face stations, indoor monitor) over ISAPI with Digest auth. Every release also publishes `door-control.apk`, and `config.json` tells the phone to install it.
+
+- **Home screen**: saved devices with one-tap Open per lock relay.
+- **Device screen**: Open / Close / Hold open / Hold locked, each followed by a 12 s watch of the lock and door-contact state; Status, Events (last 24 h), Config readout, Snapshot, and a raw ISAPI console (GET into body, edit, PUT back).
+- **Share log** sends the full trace for review.
+
+Passwords are encrypted with an Android Keystore key. The phone must be on the villa network (or reach it over Tailscale).
