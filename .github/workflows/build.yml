@@ -52,7 +52,7 @@ jobs:
         env:
           KEYSTORE_FILE: ${{ runner.temp }}/ks.p12
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: gradle :app:assembleRelease -PversionCode=${{ github.run_number }} --no-daemon --stacktrace
+        run: gradle :app:assembleRelease :door:assembleRelease -PversionCode=${{ github.run_number }} --no-daemon --stacktrace
 
       - name: Check signature matches the provisioning QR
         run: |
@@ -64,10 +64,15 @@ jobs:
           echo "Signature checksum: $SUM"
           test "$SUM" = "$(cat signing/signature-checksum.txt)"
 
+      - name: Collect Door Control APK
+        run: cp door/build/outputs/apk/release/door-release.apk door-control.apk
+
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ github.run_number }}
           name: Fold Control v${{ github.run_number }}
-          files: fold-control.apk
+          files: |
+            fold-control.apk
+            door-control.apk
           make_latest: true

@@ -1,0 +1,29 @@
+# Compiles Door Control on any branch except main, so changes can be checked before release.
+name: Door Control check
+
+on:
+  push:
+    branches-ignore: [main]
+    paths:
+      - "door/**"
+      - ".github/workflows/door-check.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+      - name: Compile
+        run: gradle :door:assembleDebug --no-daemon --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: door-control-debug
+          path: door/build/outputs/apk/debug/door-debug.apk
