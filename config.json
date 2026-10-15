@@ -58,6 +58,11 @@
       "repo": "aalenazi2024-cyber/fold-control",
       "asset": "door-control.apk",
       "_note": "Door Control: Hikvision door station test app (door/ folder)"
+    },
+    {
+      "repo": "aalenazi2024-cyber/fold-control",
+      "asset": "triage.apk",
+      "_note": "Triage: notification gatekeeper for Outlook/Teams (triage/ folder)"
     }
   ]
 }

@@ -30,3 +30,14 @@ Second app in this repo: a direct LAN client for the villa's Hikvision intercom 
 - **Share log** sends the full trace for review.
 
 Passwords are encrypted with an Android Keystore key. The phone must be on the villa network (or reach it over Tailscale).
+
+## Triage (`triage/`)
+
+Third app: a notification gatekeeper for Outlook and Teams that runs entirely on the phone. No Microsoft sign-in, no admin consent, no cloud: it reads only what Outlook/Teams already put in their notifications (Android *Notification access*, granted on the phone).
+
+- **Needs you** (VIP, Teams @mention, urgent words, senders you usually open, or the local model's call) → Outlook's notification is replaced by one alert with a summary and **Snooze** (5 min · 30 min · 1/2/3 h · this evening · tomorrow 9 am), **Reply** (copies the drafted reply and opens the thread) or **Open**, and **Done**. Swipe = ignore, and Triage learns from it.
+- **FYI / noise** → removed silently into one collapsed, silent digest; noise gets Outlook's own *Mark as read* pressed when offered. Long-press anything in *Filtered* to make that sender always alert.
+- **Hidden content** (company policy shows only "New message") → left untouched.
+- **Optional local model** (Settings): any OpenAI-compatible URL — llama.cpp in Termux on the phone (`http://127.0.0.1:8080/v1`) or the workstation over Tailscale — for better judgement, real summaries and reply drafts. Blank = rules only.
+
+Every release publishes `triage.apk`; `config.json` tells the phone to install it. First run: open Triage → allow notification access, alerts and exact alarms.

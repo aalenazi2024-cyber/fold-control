@@ -1,0 +1,29 @@
+# Compiles Triage on any branch except main, so changes can be checked before release.
+name: Triage check
+
+on:
+  push:
+    branches-ignore: [main]
+    paths:
+      - "triage/**"
+      - ".github/workflows/triage-check.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+      - name: Compile
+        run: gradle :triage:assembleDebug --no-daemon --stacktrace
+      - uses: actions/upload-artifact@v4
+        with:
+          name: triage-debug
+          path: triage/build/outputs/apk/debug/triage-debug.apk
