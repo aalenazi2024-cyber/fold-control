@@ -1,6 +1,6 @@
 {
   "_about": "What Shelf downloads. The phone re-reads this file every 20 minutes, so edits here need no rebuild. Sources: 'q' = yt-dlp search (ytsearchN: most relevant, ytsearchdateN: newest) or any YouTube/TikTok channel, playlist or profile URL; 'max' = items to keep, 'min'/'maxDur' = length limits in seconds, 'refreshHours' = look again for new items. 'mp3quran' = reciter's Arabic name on mp3quran.net. 'stopAt' = when automatic downloading ends. 'priority': true = this collection downloads before the others.",
-  "stopAt": "2026-10-16T21:00:00+03:00",
+  "stopAt": "2026-10-16T18:30:00+03:00",
   "maxGB": 45,
   "minFreeGB": 20,
   "ytdlpArgs": [],
