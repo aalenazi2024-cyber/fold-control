@@ -1,21 +1,159 @@
 {
-  "_about": "What Shelf downloads. The phone re-reads this file every 20 minutes, so edits here need no rebuild. Sources: 'q' = yt-dlp search (ytsearchN: most relevant, ytsearchdateN: newest) or any YouTube/TikTok channel, playlist or profile URL; 'max' = items to keep, 'min'/'maxDur' = length limits in seconds, 'refreshHours' = look again for new items. 'mp3quran' = reciter's Arabic name on mp3quran.net. 'stopAt' = when automatic downloading ends.",
-  "stopAt": "2026-10-16T16:45:00+03:00",
+  "_about": "What Shelf downloads. The phone re-reads this file every 20 minutes, so edits here need no rebuild. Sources: 'q' = yt-dlp search (ytsearchN: most relevant, ytsearchdateN: newest) or any YouTube/TikTok channel, playlist or profile URL; 'max' = items to keep, 'min'/'maxDur' = length limits in seconds, 'refreshHours' = look again for new items. 'mp3quran' = reciter's Arabic name on mp3quran.net. 'stopAt' = when automatic downloading ends. 'priority': true = this collection downloads before the others.",
+  "stopAt": "2026-10-16T21:00:00+03:00",
   "maxGB": 45,
   "minFreeGB": 20,
   "ytdlpArgs": [],
   "collections": [
     {
+      "id": "thiel",
+      "title": "Peter Thiel",
+      "type": "video",
+      "priority": true,
+      "sources": [
+        {
+          "q": "ytsearch25:Peter Thiel talk",
+          "max": 12,
+          "min": 600,
+          "maxDur": 10800
+        },
+        {
+          "q": "ytsearch20:Peter Thiel interview",
+          "max": 10,
+          "min": 600,
+          "maxDur": 10800
+        },
+        {
+          "q": "ytsearch10:Peter Thiel lecture Stanford",
+          "max": 5,
+          "min": 900,
+          "maxDur": 10800
+        },
+        {
+          "q": "ytsearch10:Peter Thiel competition is for losers",
+          "max": 3,
+          "min": 600,
+          "maxDur": 10800
+        },
+        {
+          "q": "ytsearch10:Peter Thiel Zero to One speech",
+          "max": 4,
+          "min": 600,
+          "maxDur": 10800
+        }
+      ]
+    },
+    {
+      "id": "neobanks",
+      "title": "Nubank & Revolut",
+      "type": "video",
+      "priority": true,
+      "sources": [
+        {
+          "q": "ytsearch15:Nubank David Velez interview",
+          "max": 6,
+          "min": 480,
+          "maxDur": 7200
+        },
+        {
+          "q": "ytsearch10:Nubank story how it became the biggest digital bank",
+          "max": 5,
+          "min": 300,
+          "maxDur": 5400
+        },
+        {
+          "q": "ytsearch15:Revolut Nik Storonsky interview",
+          "max": 6,
+          "min": 480,
+          "maxDur": 7200
+        },
+        {
+          "q": "ytsearch10:Revolut story how it grew",
+          "max": 5,
+          "min": 300,
+          "maxDur": 5400
+        },
+        {
+          "q": "ytsearch8:neobank business model explained Nubank Revolut",
+          "max": 3,
+          "min": 300,
+          "maxDur": 3600
+        }
+      ]
+    },
+    {
+      "id": "nfx",
+      "title": "NFX · Network Effects",
+      "type": "video",
+      "priority": true,
+      "sources": [
+        {
+          "q": "ytsearch20:NFX James Currier network effects",
+          "max": 10,
+          "min": 300,
+          "maxDur": 7200
+        },
+        {
+          "q": "ytsearch15:NFX podcast network effects",
+          "max": 8,
+          "min": 600,
+          "maxDur": 7200
+        },
+        {
+          "q": "ytsearch10:NFX network effects bible",
+          "max": 4,
+          "min": 240,
+          "maxDur": 7200
+        },
+        {
+          "q": "ytsearch10:Pete Flint NFX marketplaces",
+          "max": 4,
+          "min": 300,
+          "maxDur": 7200
+        }
+      ]
+    },
+    {
       "id": "platforms",
       "title": "Network Effects & Platforms",
       "type": "video",
       "sources": [
-        { "q": "ytsearch8:network effects explained", "max": 6, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch8:platform economy business model explained", "max": 5, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch6:two-sided marketplace strategy chicken and egg problem", "max": 4, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch6:aggregation theory platforms explained", "max": 3, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch6:a16z network effects marketplaces", "max": 3, "min": 300, "maxDur": 4200 },
-        { "q": "ytsearch6:super app fintech platform strategy", "max": 3, "min": 240, "maxDur": 3600 }
+        {
+          "q": "ytsearch8:network effects explained",
+          "max": 6,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch8:platform economy business model explained",
+          "max": 5,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:two-sided marketplace strategy chicken and egg problem",
+          "max": 4,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:aggregation theory platforms explained",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:a16z network effects marketplaces",
+          "max": 3,
+          "min": 300,
+          "maxDur": 4200
+        },
+        {
+          "q": "ytsearch6:super app fintech platform strategy",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        }
       ]
     },
     {
@@ -23,10 +161,30 @@
       "title": "Business Stories",
       "type": "video",
       "sources": [
-        { "q": "ytsearch10:how this company became a giant business story documentary", "max": 6, "min": 480, "maxDur": 3600 },
-        { "q": "ytsearch8:rise and fall of a company business documentary", "max": 5, "min": 480, "maxDur": 3600 },
-        { "q": "ytsearch6:fintech company success story documentary", "max": 4, "min": 360, "maxDur": 3600 },
-        { "q": "ytsearch6:greatest business decisions of all time case study", "max": 3, "min": 360, "maxDur": 3600 }
+        {
+          "q": "ytsearch10:how this company became a giant business story documentary",
+          "max": 6,
+          "min": 480,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch8:rise and fall of a company business documentary",
+          "max": 5,
+          "min": 480,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:fintech company success story documentary",
+          "max": 4,
+          "min": 360,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:greatest business decisions of all time case study",
+          "max": 3,
+          "min": 360,
+          "maxDur": 3600
+        }
       ]
     },
     {
@@ -34,17 +192,72 @@
       "title": "Books & Great Thinkers",
       "type": "video",
       "sources": [
-        { "q": "ytsearch6:Adam Smith Wealth of Nations summary", "max": 3, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Adam Smith Theory of Moral Sentiments explained", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch6:John Nash game theory Nash equilibrium explained", "max": 3, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch4:John Nash life story documentary", "max": 2, "min": 480, "maxDur": 5400 },
-        { "q": "ytsearch6:The Art of War Sun Tzu book summary", "max": 3, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Good Strategy Bad Strategy Richard Rumelt summary", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Thinking Fast and Slow book summary", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Zero to One Peter Thiel book summary", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Charlie Munger mental models explained", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:The Innovator's Dilemma book summary", "max": 2, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch5:Keynes vs Hayek economics explained", "max": 2, "min": 300, "maxDur": 3600 }
+        {
+          "q": "ytsearch6:Adam Smith Wealth of Nations summary",
+          "max": 3,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Adam Smith Theory of Moral Sentiments explained",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:John Nash game theory Nash equilibrium explained",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch4:John Nash life story documentary",
+          "max": 2,
+          "min": 480,
+          "maxDur": 5400
+        },
+        {
+          "q": "ytsearch6:The Art of War Sun Tzu book summary",
+          "max": 3,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Good Strategy Bad Strategy Richard Rumelt summary",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Thinking Fast and Slow book summary",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Zero to One Peter Thiel book summary",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Charlie Munger mental models explained",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:The Innovator's Dilemma book summary",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:Keynes vs Hayek economics explained",
+          "max": 2,
+          "min": 300,
+          "maxDur": 3600
+        }
       ]
     },
     {
@@ -52,11 +265,36 @@
       "title": "Strategy & Thinking",
       "type": "video",
       "sources": [
-        { "q": "ytsearch6:strategic thinking how great CEOs think", "max": 4, "min": 300, "maxDur": 3600 },
-        { "q": "ytsearch6:first principles thinking explained", "max": 3, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch6:game theory in business strategy explained", "max": 3, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch6:competitive moats explained business strategy", "max": 3, "min": 240, "maxDur": 3600 },
-        { "q": "ytsearch5:decision making under uncertainty mental models", "max": 2, "min": 240, "maxDur": 3600 }
+        {
+          "q": "ytsearch6:strategic thinking how great CEOs think",
+          "max": 4,
+          "min": 300,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:first principles thinking explained",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:game theory in business strategy explained",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch6:competitive moats explained business strategy",
+          "max": 3,
+          "min": 240,
+          "maxDur": 3600
+        },
+        {
+          "q": "ytsearch5:decision making under uncertainty mental models",
+          "max": 2,
+          "min": 240,
+          "maxDur": 3600
+        }
       ]
     },
     {
@@ -64,10 +302,30 @@
       "title": "Movie Summaries",
       "type": "video",
       "sources": [
-        { "q": "ytsearch12:movie recap full story explained", "max": 8, "min": 600, "maxDur": 3000 },
-        { "q": "ytsearch10:thriller movie recap story explained", "max": 6, "min": 600, "maxDur": 3000 },
-        { "q": "ytsearch8:best movies of 2026 recap", "max": 5, "min": 480, "maxDur": 3000 },
-        { "q": "ytsearch8:mind bending movie ending explained recap", "max": 4, "min": 480, "maxDur": 3000 }
+        {
+          "q": "ytsearch12:movie recap full story explained",
+          "max": 8,
+          "min": 600,
+          "maxDur": 3000
+        },
+        {
+          "q": "ytsearch10:thriller movie recap story explained",
+          "max": 6,
+          "min": 600,
+          "maxDur": 3000
+        },
+        {
+          "q": "ytsearch8:best movies of 2026 recap",
+          "max": 5,
+          "min": 480,
+          "maxDur": 3000
+        },
+        {
+          "q": "ytsearch8:mind bending movie ending explained recap",
+          "max": 4,
+          "min": 480,
+          "maxDur": 3000
+        }
       ]
     },
     {
@@ -75,10 +333,34 @@
       "title": "News",
       "type": "video",
       "sources": [
-        { "q": "ytsearchdate10:world news today", "max": 5, "min": 120, "maxDur": 1800, "refreshHours": 3 },
-        { "q": "ytsearchdate8:business news today markets", "max": 4, "min": 120, "maxDur": 1800, "refreshHours": 3 },
-        { "q": "ytsearchdate6:Saudi Arabia economy news", "max": 3, "min": 120, "maxDur": 1800, "refreshHours": 4 },
-        { "q": "ytsearchdate6:tech and AI news this week", "max": 3, "min": 180, "maxDur": 2400, "refreshHours": 4 }
+        {
+          "q": "ytsearchdate10:world news today",
+          "max": 5,
+          "min": 120,
+          "maxDur": 1800,
+          "refreshHours": 3
+        },
+        {
+          "q": "ytsearchdate8:business news today markets",
+          "max": 4,
+          "min": 120,
+          "maxDur": 1800,
+          "refreshHours": 3
+        },
+        {
+          "q": "ytsearchdate6:Saudi Arabia economy news",
+          "max": 3,
+          "min": 120,
+          "maxDur": 1800,
+          "refreshHours": 4
+        },
+        {
+          "q": "ytsearchdate6:tech and AI news this week",
+          "max": 3,
+          "min": 180,
+          "maxDur": 2400,
+          "refreshHours": 4
+        }
       ]
     },
     {
@@ -86,10 +368,26 @@
       "title": "Shorts",
       "type": "video",
       "sources": [
-        { "q": "ytsearch20:network effects #shorts", "max": 10, "maxDur": 90 },
-        { "q": "ytsearch20:business strategy lesson #shorts", "max": 10, "maxDur": 90 },
-        { "q": "ytsearch20:book summary in 60 seconds #shorts", "max": 10, "maxDur": 90 },
-        { "q": "ytsearch15:startup founder advice #shorts", "max": 8, "maxDur": 90 }
+        {
+          "q": "ytsearch20:network effects #shorts",
+          "max": 10,
+          "maxDur": 90
+        },
+        {
+          "q": "ytsearch20:business strategy lesson #shorts",
+          "max": 10,
+          "maxDur": 90
+        },
+        {
+          "q": "ytsearch20:book summary in 60 seconds #shorts",
+          "max": 10,
+          "maxDur": 90
+        },
+        {
+          "q": "ytsearch15:startup founder advice #shorts",
+          "max": 8,
+          "maxDur": 90
+        }
       ]
     },
     {
@@ -97,7 +395,9 @@
       "title": "القرآن — بدر التركي",
       "type": "audio",
       "sources": [
-        { "mp3quran": "بدر التركي" }
+        {
+          "mp3quran": "بدر التركي"
+        }
       ]
     }
   ]

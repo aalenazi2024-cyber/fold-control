@@ -79,6 +79,8 @@ final class Engine {
     }
 
     private static Result workLocked(Context c, long deadline, boolean allowMetered, Listener l) {
+        // Come back up for air every 10 minutes so catalog changes (new categories) are picked up.
+        deadline = Math.min(deadline, System.currentTimeMillis() + 10 * 60 * 1000L);
         JSONObject cat = Catalog.load(c, true);
         long stopAt = Catalog.stopAt(cat);
         if (stopAt > 0 && System.currentTimeMillis() > stopAt && !allowMetered) {
@@ -357,6 +359,19 @@ final class Engine {
 
     private static Library.Item pickNext(Context c, JSONObject cat) {
         JSONArray cols = Catalog.collections(cat);
+        // Priority categories first, rotating between them.
+        int prr = Store.prefs(c).getInt("prr", 0);
+        for (int step = 0; step < cols.length(); step++) {
+            int idx = (prr + step) % cols.length();
+            JSONObject col = cols.optJSONObject(idx);
+            if (col == null || !col.optBoolean("priority")) continue;
+            for (Library.Item i : Library.inCollection(c, col.optString("id"), false)) {
+                if (Library.QUEUED.equals(i.status)) {
+                    Store.prefs(c).edit().putInt("prr", idx + 1).apply();
+                    return i;
+                }
+            }
+        }
         int n = cols.length() + 1;
         int rr = Store.prefs(c).getInt("rr", 0);
         for (int step = 0; step < n; step++) {
