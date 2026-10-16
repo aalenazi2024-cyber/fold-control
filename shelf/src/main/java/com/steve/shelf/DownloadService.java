@@ -68,19 +68,30 @@ public class DownloadService extends Service {
         }
         boolean anyNetwork = intent != null && intent.getBooleanExtra(EXTRA_ANY_NETWORK, false);
         if (worker != null && worker.isAlive()) return START_NOT_STICKY;
+        // A background job may be holding the downloader with its network blocked: take over.
+        if (Engine.isBusy()) Engine.requestStop();
 
         worker = new Thread(() -> {
             PowerManager pm = getSystemService(PowerManager.class);
             PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "shelf:download");
+            long end = System.currentTimeMillis() + RUN_MS;
             wl.acquire(RUN_MS + 60000);
             Engine.Result r = Engine.Result.IDLE;
             try {
-                r = Engine.work(this, System.currentTimeMillis() + RUN_MS, anyNetwork, line -> {
-                    long now = System.currentTimeMillis();
-                    if (now - lastNote < 1500) return;
-                    lastNote = now;
-                    getSystemService(NotificationManager.class).notify(NOTE_ID, note(line));
-                });
+                // Keep going until the window ends: wait out network drops instead of giving up.
+                while (System.currentTimeMillis() < end) {
+                    r = Engine.work(this, end, anyNetwork, line -> {
+                        long now = System.currentTimeMillis();
+                        if (now - lastNote < 1500) return;
+                        lastNote = now;
+                        getSystemService(NotificationManager.class).notify(NOTE_ID, note(line));
+                    });
+                    if (r == Engine.Result.MORE) continue;
+                    if (r == Engine.Result.STOPPED || r == Engine.Result.FULL) break;
+                    long wait = r == Engine.Result.IDLE ? 15 * 60 * 1000L
+                            : r == Engine.Result.BUSY ? 5000 : 60 * 1000L;
+                    Thread.sleep(wait);
+                }
             } catch (Throwable t) {
                 Store.log(this, "Service error: " + t);
             } finally {

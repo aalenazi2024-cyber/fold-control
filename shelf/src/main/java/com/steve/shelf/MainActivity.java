@@ -48,12 +48,14 @@ public class MainActivity extends Activity {
         }
         build();
         handleShare(getIntent());
+        // One tap: lets downloads keep their internet connection while the phone sleeps.
+        Power.askExemption(this);
         // Opening the app is the one moment Android lets us run a foreground download.
         new Thread(() -> {
             JSONObject cat = Catalog.load(this, true);
             long stop = Catalog.stopAt(cat);
             if (stop == 0 || System.currentTimeMillis() < stop) {
-                if (!Engine.isBusy()) DownloadService.start(this, false);
+                DownloadService.start(this, false);
             }
             runOnUiThread(this::fillGrid);
         }).start();
@@ -97,13 +99,9 @@ public class MainActivity extends Activity {
 
         root.addView(Ui.row(this,
                 Ui.button(this, "Download now", v -> {
-                    if (Engine.isBusy()) {
-                        Toast.makeText(this, "Already downloading", Toast.LENGTH_SHORT).show();
-                    } else {
-                        boolean anyNet = Engine.isMetered(this);
-                        DownloadService.start(this, anyNet);
-                        Toast.makeText(this, anyNet ? "Downloading on mobile data" : "Downloading", Toast.LENGTH_SHORT).show();
-                    }
+                    boolean anyNet = Engine.isMetered(this);
+                    DownloadService.start(this, anyNet);
+                    Toast.makeText(this, anyNet ? "Downloading on mobile data" : "Downloading", Toast.LENGTH_SHORT).show();
                 }),
                 Ui.button(this, "Add link", v -> addLinkDialog()),
                 Ui.button(this, "Log", v -> showLog())));

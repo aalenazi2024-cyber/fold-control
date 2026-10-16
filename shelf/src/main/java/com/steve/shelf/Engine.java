@@ -28,7 +28,7 @@ import kotlin.Unit;
  * collection fills up evenly. Shared by the background job and the foreground service.
  */
 final class Engine {
-    enum Result { MORE, IDLE, STOPPED, BUSY, NO_WIFI, FULL }
+    enum Result { MORE, IDLE, STOPPED, BUSY, NO_WIFI, NO_NET, FULL }
 
     interface Listener {
         void onStatus(String line);
@@ -36,6 +36,7 @@ final class Engine {
 
     private static final AtomicBoolean BUSY = new AtomicBoolean(false);
     private static volatile String currentProcess;
+    private static volatile boolean stopRequested;
     private static boolean ready;
 
     private static final String DEFAULT_VIDEO_FORMAT =
@@ -46,6 +47,12 @@ final class Engine {
 
     static boolean isBusy() {
         return BUSY.get();
+    }
+
+    /** Asks the running work loop to stop (used when the foreground service takes over). */
+    static void requestStop() {
+        stopRequested = true;
+        cancelCurrent();
     }
 
     /** Stops the yt-dlp process that is running right now, if any. */
@@ -62,6 +69,7 @@ final class Engine {
     /** Works until the deadline or until there is nothing left. Never call on the main thread. */
     static Result work(Context ctx, long deadline, boolean allowMetered, Listener l) {
         if (!BUSY.compareAndSet(false, true)) return Result.BUSY;
+        stopRequested = false;
         try {
             return workLocked(ctx.getApplicationContext(), deadline, allowMetered, l);
         } finally {
@@ -81,7 +89,12 @@ final class Engine {
             say(c, l, "Waiting for Wi-Fi");
             return Result.NO_WIFI;
         }
+        if (!canReachInternet()) {
+            say(c, l, "No internet right now, waiting");
+            return Result.NO_NET;
+        }
         if (!ensureReady(c, l)) return Result.IDLE;
+        requeueNetworkFailures(c);
 
         // 1. Plan: expand every source into queue items (re-planned on its refresh interval).
         JSONArray cols = Catalog.collections(cat);
@@ -91,7 +104,7 @@ final class Engine {
             JSONArray sources = col.optJSONArray("sources");
             if (sources == null) continue;
             for (int k = 0; k < sources.length(); k++) {
-                if (System.currentTimeMillis() > deadline) return Result.MORE;
+                if (System.currentTimeMillis() > deadline || stopRequested) return Result.MORE;
                 JSONObject src = sources.optJSONObject(k);
                 if (src == null) continue;
                 plan(c, cat, col, src, k, l);
@@ -109,7 +122,7 @@ final class Engine {
         }
 
         // 2. Download, rotating between collections.
-        while (System.currentTimeMillis() < deadline) {
+        while (System.currentTimeMillis() < deadline && !stopRequested) {
             if (stopAt > 0 && System.currentTimeMillis() > stopAt && !allowMetered) {
                 say(c, l, "Stopped: past the download window");
                 return Result.STOPPED;
@@ -128,7 +141,10 @@ final class Engine {
                 say(c, l, "All caught up");
                 return Result.IDLE;
             }
-            download(c, cat, next, l);
+            if (!download(c, cat, next, l)) {
+                say(c, l, "Lost internet, waiting");
+                return Result.NO_NET;
+            }
         }
         return Result.MORE;
     }
@@ -237,14 +253,15 @@ final class Engine {
                     Library.add(c, "u_" + Integer.toHexString(u.hashCode()), u, u, colId, 0, base + i);
                 }
             } else {
-                String target = src.optString("q", src.optString("url", ""));
+                String target = searchUrl(src.optString("q", src.optString("url", "")));
                 if (target.isEmpty()) return;
                 say(c, l, "Finding: " + label(target));
                 planYtDlp(c, cat, colId, src, target, base);
             }
             Store.prefs(c).edit().putLong(key, System.currentTimeMillis()).apply();
         } catch (Exception e) {
-            Store.log(c, "Plan failed for " + label(src.toString()) + ": " + e.getMessage());
+            if (isNetworkError(e)) return; // try again next round, nothing learned
+            Store.log(c, "Plan failed for " + label(src.toString()) + ": " + shortError(e));
             // Retry this source next round, but not in a tight loop.
             Store.prefs(c).edit().putLong(key, System.currentTimeMillis() - (long) (Math.max(refreshH, 1) * 3600 * 1000L) + 30 * 60 * 1000L).apply();
         }
@@ -356,7 +373,8 @@ final class Engine {
         return null;
     }
 
-    private static void download(Context c, JSONObject cat, Library.Item item, Listener l) {
+    /** Returns false if the network dropped (the item stays queued, no try is used up). */
+    private static boolean download(Context c, JSONObject cat, Library.Item item, Listener l) {
         boolean audio = Catalog.isAudio(cat, item.col);
         boolean direct = item.url.toLowerCase(Locale.US).matches("^https?://[^?]+\\.(mp3|m4a|mp4)(\\?.*)?$");
         File dir = Store.collectionDir(c, item.col);
@@ -399,17 +417,67 @@ final class Engine {
             item.status = Library.DONE;
             Library.update(c, item);
             Store.log(c, "Saved: " + item.title);
+            return true;
         } catch (Exception e) {
+            if (stopRequested) return true;
+            if (isNetworkError(e) || !canReachInternet()) return false;
             item.tries++;
             item.status = item.tries >= 3 ? Library.FAILED : Library.QUEUED;
             Library.update(c, item);
-            String msg = String.valueOf(e.getMessage());
-            int cut = msg.lastIndexOf("ERROR:");
-            if (cut >= 0) msg = msg.substring(cut);
-            if (msg.length() > 300) msg = msg.substring(0, 300);
-            Store.log(c, "Failed (" + item.tries + "): " + item.title + " — " + msg);
+            Store.log(c, "Failed (" + item.tries + "): " + item.title + " — " + shortError(e));
+            return true;
         } finally {
             currentProcess = null;
+        }
+    }
+
+    private static String shortError(Exception e) {
+        String msg = e.getMessage() != null ? e.getMessage() : e.toString();
+        int cut = msg.lastIndexOf("ERROR:");
+        if (cut >= 0) msg = msg.substring(cut);
+        return msg.length() > 300 ? msg.substring(0, 300) : msg;
+    }
+
+    static boolean isNetworkError(Exception e) {
+        String m = String.valueOf(e.getMessage()) + " " + e;
+        return m.contains("Errno 7") || m.contains("No address associated") || m.contains("Unable to resolve host")
+                || m.contains("Network is unreachable") || m.contains("Errno 101") || m.contains("Errno 3]")
+                || m.contains("Temporary failure in name resolution") || m.contains("UnknownHostException");
+    }
+
+    /** DNS check: Android blocks idle background apps from the network and lookups fail. */
+    static boolean canReachInternet() {
+        try {
+            return java.net.InetAddress.getByName("www.youtube.com") != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /** Items marked failed while the network was blocked deserve another go (once per version). */
+    private static void requeueNetworkFailures(Context c) {
+        String flag = "requeued_v2";
+        if (Store.prefs(c).getBoolean(flag, false)) return;
+        for (Library.Item i : Library.all(c)) {
+            if (Library.FAILED.equals(i.status)) {
+                i.status = Library.QUEUED;
+                i.tries = 0;
+                Library.update(c, i);
+            }
+        }
+        Store.prefs(c).edit().putBoolean(flag, true).apply();
+        Store.log(c, "Retrying videos that failed because of the network");
+    }
+
+    /** yt-dlp's "ytsearchdate" isn't in this build; use YouTube's own newest-first search page. */
+    private static String searchUrl(String target) {
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("^ytsearchdate(\\d*):(.+)$").matcher(target);
+        if (!m.matches()) return target;
+        try {
+            return "https://www.youtube.com/results?search_query="
+                    + java.net.URLEncoder.encode(m.group(2), "UTF-8") + "&sp=CAI%253D";
+        } catch (Exception e) {
+            return target;
         }
     }
 

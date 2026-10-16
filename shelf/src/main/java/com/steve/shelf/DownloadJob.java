@@ -37,6 +37,12 @@ public class DownloadJob extends JobService {
     public boolean onStartJob(JobParameters params) {
         final int myId = params.getJobId();
         final int nextId = myId == JOB_A ? JOB_B : JOB_A;
+        // Best path: hand off to the foreground service, which keeps the network while idle.
+        // Allowed from the background once Shelf is exempt from battery optimization.
+        if (Power.exempt(this) && DownloadService.start(this, false)) {
+            jobFinished(params, false);
+            return false;
+        }
         worker = new Thread(() -> {
             Engine.Result r = Engine.Result.IDLE;
             try {
@@ -51,6 +57,9 @@ public class DownloadJob extends JobService {
                 case BUSY:
                     // The foreground service is downloading; look again later.
                     schedule(this, 10 * 60 * 1000L, nextId);
+                    break;
+                case NO_NET:
+                    schedule(this, 2 * 60 * 1000L, nextId);
                     break;
                 case IDLE:
                 case NO_WIFI:

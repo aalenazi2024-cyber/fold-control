@@ -12,6 +12,7 @@ public class KickReceiver extends BroadcastReceiver {
             Store.log(context, "Started by " + intent.getAction());
             Store.prefs(context).edit().putBoolean("kicked_logged", true).apply();
         }
+        if (Power.exempt(context) && DownloadService.start(context, false)) return;
         if (!Engine.isBusy()) DownloadJob.schedule(context, 0);
     }
 }
