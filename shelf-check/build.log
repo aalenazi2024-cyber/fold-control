@@ -21,11 +21,11 @@ The AGP Upgrade Assistant can remove the attribute from the AndroidManifest.xml 
 
 > Task :shelf:processDebugManifest
 > Task :shelf:mergeDebugShaders
-> Task :shelf:processDebugManifestForPackage
 > Task :shelf:compileDebugShaders NO-SOURCE
 > Task :shelf:generateDebugAssets UP-TO-DATE
 > Task :shelf:mergeDebugAssets
 > Task :shelf:desugarDebugFileDependencies
+> Task :shelf:processDebugManifestForPackage
 > Task :shelf:compressDebugAssets
 > Task :shelf:processDebugJavaRes NO-SOURCE
 > Task :shelf:mergeDebugJniLibFolders
@@ -34,7 +34,11 @@ The AGP Upgrade Assistant can remove the attribute from the AndroidManifest.xml 
 > Task :shelf:mergeDebugJavaResource
 > Task :shelf:mergeDebugNativeLibs
 > Task :shelf:mergeExtDexDebug
+
 > Task :shelf:compileDebugJavaWithJavac
+Note: Some input files use or override a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
 > Task :shelf:dexBuilderDebug
 > Task :shelf:mergeDebugGlobalSynthetics
 > Task :shelf:mergeLibDexDebug
@@ -62,19 +66,19 @@ Unable to strip the following libraries, packaging them as they are: libffmpeg.s
 > Task :app:processDebugMainManifest
 > Task :app:processDebugManifest
 > Task :app:mergeDebugShaders
+> Task :app:processDebugManifestForPackage
 > Task :app:compileDebugShaders NO-SOURCE
 > Task :app:generateDebugAssets UP-TO-DATE
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
 > Task :app:desugarDebugFileDependencies
 > Task :app:processDebugJavaRes NO-SOURCE
-> Task :app:processDebugManifestForPackage
 > Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugJavaResource
 > Task :app:mergeExtDexDebug
-> Task :app:mergeLibDexDebug
 > Task :app:mergeDebugJniLibFolders
 > Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:mergeLibDexDebug
 > Task :app:stripDebugDebugSymbols NO-SOURCE
 > Task :app:validateSigningDebug
 > Task :app:writeDebugAppMetadata
@@ -90,7 +94,8 @@ Unable to strip the following libraries, packaging them as they are: libffmpeg.s
 > Task :shelf:packageDebug
 > Task :shelf:createDebugApkListingFileRedirect
 > Task :shelf:assembleDebug
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/compile-1792126897176.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/compile-1792127306441.json
+[Incubating] Problems report is available at: file:///home/runner/work/fold-control/fold-control/build/reports/problems/problems-report.html
 
-BUILD SUCCESSFUL in 41s
+BUILD SUCCESSFUL in 45s
 66 actionable tasks: 66 executed
