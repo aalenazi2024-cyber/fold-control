@@ -15,7 +15,7 @@
     <application
         android:label="Shelf"
         android:icon="@android:drawable/ic_media_play"
-        android:theme="@android:style/Theme.DeviceDefault.DayNight"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
         android:extractNativeLibs="true"
         android:allowBackup="false">
 
