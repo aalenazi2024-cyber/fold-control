@@ -15,53 +15,52 @@ Daemon will be stopped at the end of the build
 > Task :shelf:parseDebugLocalResources
 
 > Task :shelf:processDebugMainManifest
-/home/runner/work/fold-control/fold-control/shelf/src/main/AndroidManifest.xml:17:9-41 Warning:
+/home/runner/work/fold-control/fold-control/shelf/src/main/AndroidManifest.xml:19:9-41 Warning:
 	android:extractNativeLibs should not be specified in this source AndroidManifest.xml file. See https://d.android.com/guide/topics/manifest/application-element#extractNativeLibs for more information.
 The AGP Upgrade Assistant can remove the attribute from the AndroidManifest.xml file and update the build file accordingly. See https://d.android.com/studio/build/agp-upgrade-assistant for more information.
 
 > Task :shelf:processDebugManifest
 > Task :shelf:mergeDebugShaders
+> Task :shelf:processDebugManifestForPackage
 > Task :shelf:compileDebugShaders NO-SOURCE
 > Task :shelf:generateDebugAssets UP-TO-DATE
 > Task :shelf:mergeDebugAssets
 > Task :shelf:desugarDebugFileDependencies
 > Task :shelf:compressDebugAssets
 > Task :shelf:processDebugJavaRes NO-SOURCE
-> Task :shelf:processDebugManifestForPackage
+> Task :shelf:mergeDebugJniLibFolders
 > Task :shelf:checkDebugDuplicateClasses
-> Task :shelf:mergeDebugJavaResource
 > Task :shelf:processDebugResources
+> Task :shelf:mergeDebugJavaResource
+> Task :shelf:mergeDebugNativeLibs
 > Task :shelf:mergeExtDexDebug
 > Task :shelf:compileDebugJavaWithJavac
 > Task :shelf:dexBuilderDebug
 > Task :shelf:mergeDebugGlobalSynthetics
 > Task :shelf:mergeLibDexDebug
-> Task :shelf:mergeDebugJniLibFolders
 > Task :shelf:mergeProjectDexDebug
-> Task :shelf:mergeDebugNativeLibs
+
+> Task :shelf:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libffmpeg.so, libffmpeg.zip.so, libffprobe.so, libpython.so, libpython.zip.so, libqjs.so.
+
 > Task :shelf:validateSigningDebug
 > Task :shelf:writeDebugAppMetadata
 > Task :shelf:writeDebugSigningConfigVersions
 > Task :app:preBuild UP-TO-DATE
 > Task :app:preDebugBuild UP-TO-DATE
 > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
-> Task :app:generateDebugResValues
-> Task :app:checkDebugAarMetadata
-> Task :app:mapDebugSourceSetPaths
 > Task :app:javaPreCompileDebug
+> Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :app:mapDebugSourceSetPaths
 > Task :app:generateDebugResources
-
-> Task :shelf:stripDebugDebugSymbols
-Unable to strip the following libraries, packaging them as they are: libffmpeg.so, libffmpeg.zip.so, libffprobe.so, libpython.so, libpython.zip.so, libqjs.so.
-
-> Task :app:mergeDebugResources
 > Task :app:packageDebugResources
+> Task :app:mergeDebugResources
 > Task :app:createDebugCompatibleScreenManifests
 > Task :app:extractDeepLinksDebug
 > Task :app:parseDebugLocalResources
 > Task :app:processDebugMainManifest
 > Task :app:processDebugManifest
-> Task :app:processDebugManifestForPackage
 > Task :app:mergeDebugShaders
 > Task :app:compileDebugShaders NO-SOURCE
 > Task :app:generateDebugAssets UP-TO-DATE
@@ -69,6 +68,7 @@ Unable to strip the following libraries, packaging them as they are: libffmpeg.s
 > Task :app:compressDebugAssets
 > Task :app:desugarDebugFileDependencies
 > Task :app:processDebugJavaRes NO-SOURCE
+> Task :app:processDebugManifestForPackage
 > Task :app:checkDebugDuplicateClasses
 > Task :app:mergeDebugJavaResource
 > Task :app:mergeExtDexDebug
@@ -90,7 +90,7 @@ Unable to strip the following libraries, packaging them as they are: libffmpeg.s
 > Task :shelf:packageDebug
 > Task :shelf:createDebugApkListingFileRedirect
 > Task :shelf:assembleDebug
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/compile-1792116568326.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/compile-1792126897176.json
 
-BUILD SUCCESSFUL in 43s
+BUILD SUCCESSFUL in 41s
 66 actionable tasks: 66 executed
