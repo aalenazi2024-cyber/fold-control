@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths-ignore:
       - "config.json"
+      - "shelf/catalog.json"
       - "README.md"
       - "provisioning/**"
   workflow_dispatch:
@@ -36,6 +37,7 @@ jobs:
         run: |
           mkdir -p app/src/main/assets
           cp config.json app/src/main/assets/config.json
+          cp shelf/catalog.json shelf/src/main/assets/catalog.json
 
       - name: Unlock signing key
         env:
@@ -52,7 +54,7 @@ jobs:
         env:
           KEYSTORE_FILE: ${{ runner.temp }}/ks.p12
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: gradle :app:assembleRelease :door:assembleRelease :triage:assembleRelease -PversionCode=${{ github.run_number }} --no-daemon --stacktrace
+        run: gradle :app:assembleRelease :door:assembleRelease :triage:assembleRelease :shelf:assembleRelease -PversionCode=${{ github.run_number }} --no-daemon --stacktrace
 
       - name: Check signature matches the provisioning QR
         run: |
@@ -64,10 +66,11 @@ jobs:
           echo "Signature checksum: $SUM"
           test "$SUM" = "$(cat signing/signature-checksum.txt)"
 
-      - name: Collect Door Control and Triage APKs
+      - name: Collect Door Control, Triage and Shelf APKs
         run: |
           cp door/build/outputs/apk/release/door-release.apk door-control.apk
           cp triage/build/outputs/apk/release/triage-release.apk triage.apk
+          cp shelf/build/outputs/apk/release/shelf-release.apk shelf.apk
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
@@ -78,4 +81,5 @@ jobs:
             fold-control.apk
             door-control.apk
             triage.apk
+            shelf.apk
           make_latest: true

@@ -28,6 +28,7 @@ public class InstallResultReceiver extends BroadcastReceiver {
                 Store.prefs(context).edit().putLong("asset_" + key, assetId).apply();
             }
             Store.log(context, "Installed " + (pkg != null ? pkg : key));
+            if (pkg != null && !"self".equals(key)) Sync.kick(context, pkg);
         } else {
             String msg = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
             Store.log(context, "Install failed for " + key + ": " + status + " " + msg);

@@ -60,6 +60,9 @@ public final class Sync {
                 if (a == null) continue;
                 try {
                     updateApp(ctx, a.getString("repo"), a.optString("asset", ""), a.optString("match", ""));
+                    // Apps that should keep working in the background without being opened first.
+                    String kickPkg = a.optString("kick", "");
+                    if (!kickPkg.isEmpty() && isInstalled(ctx, kickPkg)) kick(ctx, kickPkg);
                 } catch (Exception e) {
                     Store.log(ctx, "App check failed for " + a.optString("repo") + ": " + e.getMessage());
                 }
@@ -186,6 +189,20 @@ public final class Sync {
             return new String(out.toByteArray(), StandardCharsets.UTF_8);
         } finally {
             conn.disconnect();
+        }
+    }
+
+    /**
+     * Wakes an app we installed. A freshly installed app stays "stopped" (no jobs, no
+     * broadcasts) until it is opened once; an explicit broadcast with this flag starts it.
+     */
+    public static void kick(Context c, String pkg) {
+        try {
+            c.sendBroadcast(new Intent("com.steve.action.KICK")
+                    .setPackage(pkg)
+                    .addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES | Intent.FLAG_RECEIVER_FOREGROUND));
+        } catch (Exception e) {
+            Store.log(c, "Kick failed for " + pkg + ": " + e.getMessage());
         }
     }
 

@@ -1,0 +1,80 @@
+# Compiles Shelf and Fold Control on any branch except main, and saves the build log
+# to the ci-logs branch so it can be read without signing in.
+name: Shelf check
+
+on:
+  push:
+    branches-ignore: [main, ci-logs]
+    paths:
+      - "shelf/**"
+      - "app/**"
+      - "settings.gradle"
+      - "gradle.properties"
+      - ".github/workflows/shelf-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+
+      - name: Compile
+        id: compile
+        run: |
+          set +e
+          gradle :shelf:assembleDebug :app:assembleDebug --no-daemon --console=plain > build.log 2>&1
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+          tail -80 build.log
+
+      - name: Library API (for fixing Java calls)
+        if: always()
+        run: |
+          set +e
+          {
+            for aar in $(find ~/.gradle/caches -name "library-*.aar" -path "*junkfood02*") $(find ~/.gradle/caches -name "ffmpeg-*.aar" -path "*junkfood02*"); do
+              echo "== $aar"
+              d=$(mktemp -d); unzip -q -o "$aar" classes.jar -d "$d"
+              for cls in $(unzip -Z1 "$d/classes.jar" | grep '\.class$' | sed 's/\.class$//' | grep -E 'YoutubeDL|FFmpeg|UpdateChannel|Request|Response'); do
+                javap -cp "$d/classes.jar" "${cls//\//.}" 2>/dev/null
+              done
+            done
+          } > api.txt 2>&1
+
+      - name: Save log to ci-logs branch
+        if: always()
+        run: |
+          git config user.name "ci"
+          git config user.email "ci@users.noreply.github.com"
+          mkdir -p /tmp/out && cp build.log api.txt /tmp/out/ 2>/dev/null
+          echo "${{ steps.compile.outputs.code }}" > /tmp/out/exit-code.txt
+          echo "${{ github.sha }}" > /tmp/out/sha.txt
+          git fetch origin ci-logs || true
+          if git rev-parse --verify origin/ci-logs >/dev/null 2>&1; then
+            git checkout -B ci-logs origin/ci-logs
+          else
+            git checkout --orphan ci-logs && git rm -rf . >/dev/null
+          fi
+          rm -rf shelf-check && mkdir shelf-check && cp /tmp/out/* shelf-check/
+          git add shelf-check
+          git commit -m "Shelf check ${{ github.sha }}" || true
+          git push origin ci-logs
+
+      - name: Fail if compile failed
+        if: steps.compile.outputs.code != '0'
+        run: exit 1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shelf-debug
+          path: shelf/build/outputs/apk/debug/shelf-debug.apk

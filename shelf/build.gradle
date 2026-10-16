@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.application'
+}
+
+def vc = Integer.parseInt((project.findProperty('versionCode') ?: '1').toString())
+
+android {
+    namespace 'com.steve.shelf'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.steve.shelf'
+        minSdk 33
+        targetSdk 35
+        versionCode vc
+        versionName "1.${vc}"
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+
+    signingConfigs {
+        release {
+            def ks = System.getenv('KEYSTORE_FILE')
+            if (ks) {
+                storeFile file(ks)
+                storeType 'pkcs12'
+                storePassword System.getenv('KEYSTORE_PASSWORD')
+                keyAlias 'foldcontrol'
+                keyPassword System.getenv('KEYSTORE_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    // yt-dlp ships Python and ffmpeg as native libraries that must be extracted to disk.
+    packaging {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation 'io.github.junkfood02.youtubedl-android:library:0.18.1'
+    implementation 'io.github.junkfood02.youtubedl-android:ffmpeg:0.18.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.0.21'
+}
