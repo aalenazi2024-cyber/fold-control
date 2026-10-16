@@ -41,3 +41,12 @@ Third app: a notification gatekeeper for Outlook and Teams that runs entirely on
 - **Optional local model** (Settings): any OpenAI-compatible URL — llama.cpp in Termux on the phone (`http://127.0.0.1:8080/v1`) or the workstation over Tailscale — for better judgement, real summaries and reply drafts. Blank = rules only.
 
 Every release publishes `triage.apk`; `config.json` tells the phone to install it. First run: open Triage → allow notification access, alerts and exact alarms.
+
+## Shelf (`shelf/`)
+
+Fourth app: an offline library for flights. It downloads YouTube/TikTok videos and audio with yt-dlp (bundled, self-updating) into collections and plays them in order, video full screen and audio in the background with the screen off.
+
+- **What to download** lives in `shelf/catalog.json` (searches, channels, playlists, profiles, and a Quran reciter from mp3quran.net). The phone re-reads it every 20 minutes; editing it needs no rebuild. `stopAt` ends automatic downloading; `maxGB` / `minFreeGB` cap storage.
+- **Background**: Fold Control wakes Shelf after installing it, so downloading starts without opening the app. Runs on Wi-Fi only, in 8-minute chained jobs; opening the app switches to a faster foreground download with a progress notification.
+- **Add your own**: share any YouTube or TikTok link to Shelf, or tap *Add link* (videos, playlists, or a TikTok profile).
+- **Log** button shows what downloaded and what failed.

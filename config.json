@@ -63,6 +63,12 @@
       "repo": "aalenazi2024-cyber/fold-control",
       "asset": "triage.apk",
       "_note": "Triage: notification gatekeeper for Outlook/Teams (triage/ folder)"
+    },
+    {
+      "repo": "aalenazi2024-cyber/fold-control",
+      "asset": "shelf.apk",
+      "kick": "com.steve.shelf",
+      "_note": "Shelf: offline videos and Quran for flights; downloads on Wi-Fi (shelf/ folder, list in shelf/catalog.json)"
     }
   ]
 }
