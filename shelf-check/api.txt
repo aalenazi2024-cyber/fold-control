@@ -1,0 +1,126 @@
+== /home/runner/.gradle/caches/modules-2/files-2.1/io.github.junkfood02.youtubedl-android/library/0.18.1/9db4b55f3aa38a284218a8e39bfdc5949f8187e4/library-0.18.1.aar
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$CanceledException extends java.lang.Exception {
+  public com.yausername.youtubedl_android.YoutubeDL$CanceledException();
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$Companion {
+  public com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$Companion(kotlin.jvm.internal.DefaultConstructorMarker);
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$MASTER extends com.yausername.youtubedl_android.YoutubeDL$UpdateChannel {
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$MASTER INSTANCE;
+  static {};
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$NIGHTLY extends com.yausername.youtubedl_android.YoutubeDL$UpdateChannel {
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$NIGHTLY INSTANCE;
+  static {};
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$STABLE extends com.yausername.youtubedl_android.YoutubeDL$UpdateChannel {
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$STABLE INSTANCE;
+  static {};
+}
+Compiled from "YoutubeDL.kt"
+public class com.yausername.youtubedl_android.YoutubeDL$UpdateChannel {
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$Companion Companion;
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$STABLE _STABLE;
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$NIGHTLY _NIGHTLY;
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateChannel$MASTER _MASTER;
+  public com.yausername.youtubedl_android.YoutubeDL$UpdateChannel(java.lang.String);
+  public final java.lang.String getApiUrl();
+  static {};
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL$UpdateStatus extends java.lang.Enum<com.yausername.youtubedl_android.YoutubeDL$UpdateStatus> {
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateStatus DONE;
+  public static final com.yausername.youtubedl_android.YoutubeDL$UpdateStatus ALREADY_UP_TO_DATE;
+  public static com.yausername.youtubedl_android.YoutubeDL$UpdateStatus[] values();
+  public static com.yausername.youtubedl_android.YoutubeDL$UpdateStatus valueOf(java.lang.String);
+  static {};
+}
+Compiled from "YoutubeDL.kt"
+public final class com.yausername.youtubedl_android.YoutubeDL {
+  public static final com.yausername.youtubedl_android.YoutubeDL INSTANCE;
+  public static final java.lang.String baseName;
+  public static final java.lang.String ytdlpDirName;
+  public static final java.lang.String ytdlpBin;
+  public final synchronized void init(android.content.Context) throws com.yausername.youtubedl_android.YoutubeDLException;
+  public final void init_ytdlp(android.content.Context, java.io.File) throws com.yausername.youtubedl_android.YoutubeDLException;
+  public final void initPython(android.content.Context, java.io.File) throws com.yausername.youtubedl_android.YoutubeDLException;
+  public final com.yausername.youtubedl_android.mapper.VideoInfo getInfo(java.lang.String) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final com.yausername.youtubedl_android.mapper.VideoInfo getInfo(com.yausername.youtubedl_android.YoutubeDLRequest) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final boolean destroyProcessById(java.lang.String);
+  public final com.yausername.youtubedl_android.YoutubeDLResponse execute(com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, kotlin.jvm.functions.Function3<? super java.lang.Float, ? super java.lang.Long, ? super java.lang.String, kotlin.Unit>) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public static com.yausername.youtubedl_android.YoutubeDLResponse execute$default(com.yausername.youtubedl_android.YoutubeDL, com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, kotlin.jvm.functions.Function3, int, java.lang.Object) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final com.yausername.youtubedl_android.YoutubeDLResponse execute(com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, boolean, kotlin.jvm.functions.Function3<? super java.lang.Float, ? super java.lang.Long, ? super java.lang.String, kotlin.Unit>) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public static com.yausername.youtubedl_android.YoutubeDLResponse execute$default(com.yausername.youtubedl_android.YoutubeDL, com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, boolean, kotlin.jvm.functions.Function3, int, java.lang.Object) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  static com.yausername.youtubedl_android.YoutubeDLResponse executeImpl$default(com.yausername.youtubedl_android.YoutubeDL, com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, boolean, kotlin.jvm.functions.Function3, int, java.lang.Object) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final synchronized com.yausername.youtubedl_android.YoutubeDL$UpdateStatus updateYoutubeDL(android.content.Context, com.yausername.youtubedl_android.YoutubeDL$UpdateChannel) throws com.yausername.youtubedl_android.YoutubeDLException;
+  public static com.yausername.youtubedl_android.YoutubeDL$UpdateStatus updateYoutubeDL$default(com.yausername.youtubedl_android.YoutubeDL, android.content.Context, com.yausername.youtubedl_android.YoutubeDL$UpdateChannel, int, java.lang.Object) throws com.yausername.youtubedl_android.YoutubeDLException;
+  public final java.lang.String version(android.content.Context);
+  public final java.lang.String versionName(android.content.Context);
+  public final com.fasterxml.jackson.databind.ObjectMapper getObjectMapper();
+  public static final com.yausername.youtubedl_android.YoutubeDL getInstance();
+  public final com.yausername.youtubedl_android.YoutubeDLResponse execute(com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String, boolean) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final com.yausername.youtubedl_android.YoutubeDLResponse execute(com.yausername.youtubedl_android.YoutubeDLRequest, java.lang.String) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  public final com.yausername.youtubedl_android.YoutubeDLResponse execute(com.yausername.youtubedl_android.YoutubeDLRequest) throws com.yausername.youtubedl_android.YoutubeDLException, java.lang.InterruptedException, com.yausername.youtubedl_android.YoutubeDL$CanceledException;
+  static {};
+}
+Compiled from "YoutubeDLException.kt"
+public final class com.yausername.youtubedl_android.YoutubeDLException extends java.lang.Exception {
+  public com.yausername.youtubedl_android.YoutubeDLException(java.lang.String);
+  public com.yausername.youtubedl_android.YoutubeDLException(java.lang.String, java.lang.Throwable);
+  public com.yausername.youtubedl_android.YoutubeDLException(java.lang.Throwable);
+}
+Compiled from "YoutubeDLOptions.kt"
+public final class com.yausername.youtubedl_android.YoutubeDLOptions {
+  public com.yausername.youtubedl_android.YoutubeDLOptions();
+  public final com.yausername.youtubedl_android.YoutubeDLOptions addOption(java.lang.String, java.lang.String);
+  public final com.yausername.youtubedl_android.YoutubeDLOptions addOption(java.lang.String, java.lang.Number);
+  public final com.yausername.youtubedl_android.YoutubeDLOptions addOption(java.lang.String);
+  public final java.lang.String getArgument(java.lang.String);
+  public final java.util.List<java.lang.String> getArguments(java.lang.String);
+  public final boolean hasOption(java.lang.String);
+  public final java.util.List<java.lang.String> buildOptions();
+}
+Compiled from "YoutubeDLRequest.kt"
+public final class com.yausername.youtubedl_android.YoutubeDLRequest {
+  public com.yausername.youtubedl_android.YoutubeDLRequest(java.lang.String);
+  public com.yausername.youtubedl_android.YoutubeDLRequest(java.util.List<java.lang.String>);
+  public final com.yausername.youtubedl_android.YoutubeDLRequest addOption(java.lang.String, java.lang.String);
+  public final com.yausername.youtubedl_android.YoutubeDLRequest addOption(java.lang.String, java.lang.Number);
+  public final com.yausername.youtubedl_android.YoutubeDLRequest addOption(java.lang.String);
+  public final com.yausername.youtubedl_android.YoutubeDLRequest addCommands(java.util.List<java.lang.String>);
+  public final java.lang.String getOption(java.lang.String);
+  public final java.util.List<java.lang.String> getArguments(java.lang.String);
+  public final boolean hasOption(java.lang.String);
+  public final java.util.List<java.lang.String> buildCommand();
+}
+Compiled from "YoutubeDLResponse.kt"
+public final class com.yausername.youtubedl_android.YoutubeDLResponse {
+  public com.yausername.youtubedl_android.YoutubeDLResponse(java.util.List<java.lang.String>, int, long, java.lang.String, java.lang.String);
+  public final java.util.List<java.lang.String> getCommand();
+  public final int getExitCode();
+  public final long getElapsedTime();
+  public final java.lang.String getOut();
+  public final java.lang.String getErr();
+}
+Compiled from "YoutubeDLUpdater.kt"
+public final class com.yausername.youtubedl_android.YoutubeDLUpdater {
+  public static final com.yausername.youtubedl_android.YoutubeDLUpdater INSTANCE;
+  public final com.yausername.youtubedl_android.YoutubeDL$UpdateStatus update$library_release(android.content.Context, com.yausername.youtubedl_android.YoutubeDL$UpdateChannel) throws java.io.IOException, com.yausername.youtubedl_android.YoutubeDLException;
+  public static com.yausername.youtubedl_android.YoutubeDL$UpdateStatus update$library_release$default(com.yausername.youtubedl_android.YoutubeDLUpdater, android.content.Context, com.yausername.youtubedl_android.YoutubeDL$UpdateChannel, int, java.lang.Object) throws java.io.IOException, com.yausername.youtubedl_android.YoutubeDLException;
+  public final java.lang.String version(android.content.Context);
+  public final java.lang.String versionName(android.content.Context);
+  static {};
+}
+== /home/runner/.gradle/caches/modules-2/files-2.1/io.github.junkfood02.youtubedl-android/ffmpeg/0.18.1/b8895caf6946d3c1d35b7df0993c19dcef5956c6/ffmpeg-0.18.1.aar
+Compiled from "FFmpeg.kt"
+public final class com.yausername.ffmpeg.FFmpeg {
+  public static final com.yausername.ffmpeg.FFmpeg INSTANCE;
+  public final synchronized void init(android.content.Context);
+  public static final com.yausername.ffmpeg.FFmpeg getInstance();
+  static {};
+}
